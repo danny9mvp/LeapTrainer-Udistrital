@@ -1,0 +1,147 @@
+<!doctype html>
+
+<html>
+	<head>
+		<title>Leap Trainer</title>
+		<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<link type="text/css" rel="stylesheet" href="./trainer-ui/css/leaptrainer-ui.css" />
+	</head>
+
+	<body>
+
+		<div id="main">
+
+			<div id="gesture-creation-area">
+				<form id="new-gesture-form">
+					<input type="text" id="new-gesture-name" value="Crear un gesto" maxlength="15" autocomplete="off"/>
+					<input type="submit" id="create-new-gesture" value="Crear" class="button"/>
+				</form>
+				<img src="./trainer-ui/images/create-arrow.png" />
+			</div>
+			
+			<ul id="existing-gestures"></ul>
+			<div id="output-text"></div>
+			<div id="render-area"></div>
+
+			<input id="options-button" type="button" value="Opciones" class="button"/>
+
+			<div id="version-tag">LeapTrainer UI v0.03</div>
+
+			<a id="fork-me" href="https://github.com/roboleary/LeapTrainer.js" target="blank">LeapTrainer SDK en Git</a>
+			<input type="hidden" name="valorese" value="">
+		</div>
+
+		<div id="options">
+
+			<table>
+				<tbody>
+					<tr><td class="label">Disparador de reconocimiento</td><td><select id="recording-triggers"></select></td></tr>
+					<tr><td class="label">Codificación de gestos</td><td><select id="recording-strategies"></select></td></tr>
+					<tr><td class="label">Estrategia de reconocimiento</td><td><select id="recognition-strategies"></select></td></tr>
+					
+					<tr><td class="label">&nbsp;</td><td>&nbsp;</td></tr>
+					
+					<tr><td class="label">Velocidad min. de reconocimiento</td><td><input type="text" id="minRecordingVelocity"/></td></tr>
+					<tr><td class="label">Velocidad máxima de reconocimiento</td><td><input type="text" id="maxRecordingVelocity"/></td></tr>
+					
+					<tr><td class="label">Cuadros mínimos para el gesto</td><td><input type="text" id="minGestureFrames"/></td></tr>
+					<tr><td class="label">Cuadros mínimos para la postura</td><td><input type="text" id="minPoseFrames"/></td></tr>
+					
+					<tr><td class="label">Umbral de reconocimiento</td><td><input type="text" id="hitThreshold"/></td></tr>
+					<tr><td class="label">Nº de gestos de entrenamiento</td><td><input type="text" id="trainingGestures"/></td></tr>
+					<tr><td class="label">Factor de convolución</td><td><input type="text" id="convolutionFactor"/></td></tr>
+					<tr><td class="label">Tiempo de inactividad</td><td><input type="text" id="downtime"/></td></tr>
+					
+					<tr><td class="label">&nbsp;</td><td>&nbsp;</td></tr>
+
+					<tr><td class="label">Abrir opciones</td><td><select id="open-configuration"><option></option></select></td></tr>
+					<tr><td class="label">Cerrar opciones</td><td><select id="close-configuration"><option></option></select></td></tr>
+				</tbody>
+			</table>
+
+		    <div id="options-update-confirmation">¡Configuración actualizada!</div>
+		</div>
+
+		<div id="overlay-shade"></div>
+
+		<div id="overlay">
+			<div>
+				<p>Para usar el gesto <b id="exporting-gesture-name"></b>, debe copiar el texto ubicado en el TextArea de abajo e importarlo dentro de un <b>LeapTrainer.Controller</b> usando la función <b>fromJSON</b>:</p>
+				
+				<p id="sample-import-code">
+					var trainer = new LeapTrainer.Controller();
+					<br/>
+					trainer.fromJSON('<i id="exporting-gesture-sample-text"></i>');
+				</p>
+			</div>
+			<div>
+				<textarea id="export-text"></textarea>
+				
+				<input type="button" id="retrain-gesture" value="Retrain" class="button"/>
+				<input type="button" id="close-overlay" value="Close" class="button"/>
+			</div>
+		</div>
+		
+		<div id="webgl-warning"><b>ADVERTENCIA:</b> Su navegador no soporta WebGL. La calidad de renderizado será limitada y los rastros de los gestos estarán desactivados.</div>
+		
+	</body>
+
+	<script src="./trainer-ui/js/jquery.min.js"></script>
+	<script src="./trainer-ui/js/jquery.touchwipe.min.js"></script>
+
+	<<script src="./trainer-ui/js/three.min.js"></script>
+	<script src="./trainer-ui/js/detector.js"></script>
+	<script src="./trainer-ui/js/tween.js"></script>
+	<script src="./trainer-ui/js/orbit-controls.js"></script>
+
+	<!-- A local copy of the Leap Motion Javascript API is useful during testing-->
+	<script src="./lib/leap.js"></script>
+	<!-- script src="http://js.leapmotion.com/0.2.0/leap.min.js"></script -->
+		
+	<script src="./leaptrainer.js"></script>
+	
+	<script src="./sub-classes/high-resolution-recording.js"></script>
+	<script src="./sub-classes/lib/brain.js"></script>
+	<script src="./sub-classes/neural-networks.js"></script>
+	<script src="./sub-classes/cross-correlation.js"></script>
+	
+	<script src="./leaptrainer-ui.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+			llamar();
+		});
+
+		function llamar()
+		{
+						
+			$.ajax({
+                url: '/valoreseee',
+                type: 'POST',
+                data: 'buena',
+            })
+            .done(function (miere) {		
+				
+				for (var i in miere) {
+					var uuuu= '{"name":"'+miere[i].name+'", "pose":'+ miere[i].pose+', "data":'+miere[i].data+'}';
+					llenar(uuuu);
+			
+				}
+				
+            })
+            .fail(function () {
+                console.log("error");
+            });
+
+		}
+
+		function llenar(argument) {
+			var leapController = new Leap.Controller();
+			var trainer = new LeapTrainer.Controller({controller: leapController});
+			leapController.connect();
+			trainer.fromJSON(argument);
+		}
+	</script>
+</html>
