@@ -137,7 +137,7 @@ LeapTrainer.Controller = Class.extend({
 	minRecordingVelocity	: 300,	// The minimum velocity a frame needs to clock in at to trigger gesture recording, or below to stop gesture recording (by default)
 	maxRecordingVelocity	: 30,	// The maximum velocity a frame can measure at and still trigger pose recording, or above which to stop pose recording (by default)
 	
-	minGestureFrames		: 5,	// The minimum number of recorded frames considered as possibly containing a recognisable gesture 
+	minGestureFrames		: 10,	// The minimum number of recorded frames considered as possibly containing a recognisable gesture 
 	minPoseFrames			: 75,	// The minimum number of frames that need to hit as recordable before pose recording is actually triggered
 	
 	recordedPoseFrames		: 0,	// A counter for recording how many pose frames have been recorded before triggering
@@ -145,8 +145,8 @@ LeapTrainer.Controller = Class.extend({
 	
 	hitThreshold			: 0.65,	// The correlation output value above which a gesture is considered recognized. Raise this to make matching more strict
 
-	trainingCountdown		: 3,	// The number of seconds after startTraining is called that training begins. This number of 'training-countdown' events will be emit.
-	trainingGestures		: 1,	// The number of gestures samples that collected during training
+	trainingCountdown		: 5,	// The number of seconds after startTraining is called that training begins. This number of 'training-countdown' events will be emit.
+	trainingGestures		: 5,	// The number of gestures samples that collected during training
 	convolutionFactor		: 0,	// The factor by which training samples will be convolved over a gaussian distribution to expand the available training data
 
 	downtime				: 1000,	// The number of milliseconds after a gesture is identified before another gesture recording cycle can begin
