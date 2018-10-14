@@ -93,6 +93,7 @@ jQuery(document).ready(function ($) {
 		optionsArea  		= $('#options'), 
 		recordingTriggers 	= $('#recording-triggers'),
 		recordingStrategies = $('#recording-strategies'),
+		voiceGenre 			= $('#voice-genre'),
 		recogStrategies 	= $('#recognition-strategies'),
 		updateConfirmation  = $('#options-update-confirmation'),
 		openConfiguration 	= $('#open-configuration'),
@@ -237,6 +238,12 @@ jQuery(document).ready(function ($) {
     /*
      * We populate the recording triggers, recording strategies, and recognition strategies option lists.
      */
+    voiceGenre.append('<option value="' + 'Male' + '">'+'Masculino'+'</option>');
+    voiceGenre.append('<option value="' + 'Female' + '">'+'Femenino'+'</option>');
+    voiceGenre.change(function(){
+    	console.log(voiceGenre.val());
+    	//responsiveVoice.speak(gestureName,"Spanish Latin American "+voiceGenre.val());
+    });
     for (var implName in LeapTrainer) {
 
     	impl = LeapTrainer[implName].prototype;
@@ -833,7 +840,7 @@ jQuery(document).ready(function ($) {
 
 		setOutputText('<span style="font-weight: bold">' + gestureName + '</span> : ' + hitPercentage + '% DE ACIERTO');
 
-		responsiveVoice.speak(gestureName,"Spanish Latin American Male");
+		responsiveVoice.speak(gestureName,"Spanish Latin American "+voiceGenre.val());
 	});	
 
 	/*
