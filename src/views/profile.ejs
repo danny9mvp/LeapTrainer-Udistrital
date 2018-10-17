@@ -6,6 +6,30 @@
 		<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 		<link type="text/css" rel="stylesheet" href="./trainer-ui/css/leaptrainer-ui.css" />
+
+		<script src='./responsivevoice.js'></script>
+		<script src="./trainer-ui/js/jquery.min.js"></script>
+		<script src="./trainer-ui/js/jquery.touchwipe.min.js"></script>
+
+		<script src="./trainer-ui/js/three97.min.js"></script>
+		<script src="./trainer-ui/js/detector.js"></script>
+		<script src="./trainer-ui/js/tween.js"></script>
+		<script src="./trainer-ui/js/orbit-controls.js"></script>
+
+		<!-- A local copy of the Leap Motion Javascript API is useful during testing-->	
+		<script src="./lib/leap-0.6.4.js"></script>
+		<!-- This gives us the hand-hold and hand-entry plugins, which rigged-hand depends on -->
+		<script src="./trainer-ui/js/leap-plugins-0.1.12.js"></script>	
+		<script src="./trainer-ui/js/leap.rigged-hand-0.1.7.js"></script>
+			
+		<script src="./leaptrainer.js"></script>
+		
+		<script src="./sub-classes/high-resolution-recording.js"></script>
+		<script src="./sub-classes/lib/brain.js"></script>
+		<script src="./sub-classes/neural-networks.js"></script>
+		<script src="./sub-classes/cross-correlation.js"></script>
+		
+		<script src="./leaptrainer-ui.js"></script>
 	</head>
 
 	<body>
@@ -21,7 +45,7 @@
 			</div>
 			
 			<ul id="existing-gestures"></ul>
-			<div id="output-text"></div>
+			<div id="output-text"></div>			
 			<div id="render-area"></div>
 
 			<input id="options-button" type="button" value="Opciones" class="button"/>
@@ -87,27 +111,6 @@
 		<div id="webgl-warning"><b>ADVERTENCIA:</b> Su navegador no soporta WebGL. La calidad de renderizado será limitada y los rastros de los gestos estarán desactivados.</div>
 		
 	</body>
-
-	<script src="./trainer-ui/js/jquery.min.js"></script>
-	<script src="./trainer-ui/js/jquery.touchwipe.min.js"></script>
-
-	<<script src="./trainer-ui/js/three.min.js"></script>
-	<script src="./trainer-ui/js/detector.js"></script>
-	<script src="./trainer-ui/js/tween.js"></script>
-	<script src="./trainer-ui/js/orbit-controls.js"></script>
-
-	<!-- A local copy of the Leap Motion Javascript API is useful during testing-->
-	<script src="./lib/leap.js"></script>
-	<!-- script src="http://js.leapmotion.com/0.2.0/leap.min.js"></script -->
-		
-	<script src="./leaptrainer.js"></script>
-	
-	<script src="./sub-classes/high-resolution-recording.js"></script>
-	<script src="./sub-classes/lib/brain.js"></script>
-	<script src="./sub-classes/neural-networks.js"></script>
-	<script src="./sub-classes/cross-correlation.js"></script>
-	
-	<script src="./leaptrainer-ui.js"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
