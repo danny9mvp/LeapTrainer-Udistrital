@@ -102,6 +102,10 @@ jQuery(document).ready(function ($) {
 		wegGlWarning		= $('#webgl-warning'),
 		versionTag			= $('#version-tag'),
 		forkMe				= $('#fork-me'),
+		listen              = $('#listen'),
+		resumeTracking      = $('#resume-tracking'),
+		pauseTracking       = $('#pause-tracking'),
+		rebuild             = $('#rebuild'),		
 
 		/*
 		 * We set up the WebGL renderer - switching to a canvas renderer if needed
@@ -153,9 +157,7 @@ jQuery(document).ready(function ($) {
 
 	/*
 	 * If WebGL is supported the WebGL warning can be removed entirely - otherwise it should be made visible.
-	 */
-
-
+	 */	 	 	
 
 	if (webGl) { wegGlWarning.remove(); } else { wegGlWarning.css({display: 'block'}); }
 
@@ -615,6 +617,10 @@ jQuery(document).ready(function ($) {
 		optionsButton	   .css({display: 'none'});
 		versionTag		   .css({display: 'none'});
 		forkMe			   .css({display: 'none'});
+		listen             .css({display: 'none'});
+		resumeTracking     .css({display: 'none'});
+		pauseTracking      .css({display: 'none'});
+		rebuild            .css({display: 'none'});
 		
 		outputText.css({background: 'transparent'});		
 		
@@ -632,7 +638,10 @@ jQuery(document).ready(function ($) {
 		optionsButton	   .css({display: ''});
 		versionTag		   .css({display: ''});
 		forkMe			   .css({display: ''});
-		
+		listen             .css({display: ''});
+		resumeTracking     .css({display: ''});
+		pauseTracking      .css({display: ''});
+		rebuild            .css({display: ''});
 		outputText.css({background: ''});
 		
 		setOutputText(message);
@@ -838,9 +847,7 @@ jQuery(document).ready(function ($) {
 		setGestureScale(gestureName, hitPercentage, green, green);
 
 		setOutputText('<span style="font-weight: bold">' + gestureName + '</span> : ' + hitPercentage + '% DE ACIERTO');
-		oracion = oracion + gestureName+" ";
-		console.log(oracion);		
-		responsiveVoice.speak(gestureName,"Spanish Latin American "+voiceGenre.val());
+		oracion = oracion + gestureName+" ";						
 	});		
 
 	/*
@@ -902,4 +909,46 @@ jQuery(document).ready(function ($) {
 	controller.use('boneHand',{
   			targetEl: document.getElementById('render-area')  						
   		}).connect();
+	listen.click(function(e){		
+		responsiveVoice.speak(oracion,"Spanish Latin American "+voiceGenre.val());	
+		oracion = '';
+	});
+	resumeTracking.click(function(e){
+	 	controller.connect();
+	 	setOutputText("Rasteo activado.")	 	
+	});
+	pauseTracking.click(function(e){
+	 	controller.disconnect();
+	 	setOutputText("Rastreo desactivado.")
+	 });
+	rebuild.click(function(e){
+		oracion = '';		
+	});
+	function llamar()
+		{
+						
+			$.ajax({
+                url: '/valoreseee',
+                type: 'POST',
+                data: 'buena',
+            })
+            .done(function (miere) {		
+				
+				for (var i in miere) {
+					var uuuu= '{"name":"'+miere[i].name+'", "pose":'+ miere[i].pose+', "data":'+miere[i].data+'}';
+					llenar(uuuu);
+			
+				}
+				
+            })
+            .fail(function () {
+                console.log("error");
+            });
+
+		}
+
+		function llenar(argument) {			
+			trainer.fromJSON(argument);
+		}
+	 llamar();	 
 });

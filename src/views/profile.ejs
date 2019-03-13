@@ -2,8 +2,7 @@
 
 <html>
 	<head>
-		<title>Leap Trainer</title>
-		<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+		<title>Leap Trainer</title>		
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 		<link type="text/css" rel="stylesheet" href="./trainer-ui/css/leaptrainer-ui.css" />
 
@@ -39,8 +38,8 @@
 			<div id="gesture-creation-area">
 				<form id="new-gesture-form">
 					<input type="text" id="new-gesture-name" value="Crear un gesto" maxlength="15" autocomplete="off"/>
-					<input type="submit" id="create-new-gesture" value="Crear" class="button"/>
-				</form>
+					<input type="submit" id="create-new-gesture" value="Crear" class="button"/>					
+				</form>				
 				<img src="./trainer-ui/images/create-arrow.png" />
 			</div>
 			
@@ -48,18 +47,22 @@
 			<div id="output-text"></div>			
 			<div id="render-area"></div>
 
-			<input id="options-button" type="button" value="Opciones" class="button"/>
-
-			<div id="version-tag">LeapTrainer UI v0.03</div>
-
-			<a id="fork-me" href="https://github.com/roboleary/LeapTrainer.js" target="blank">LeapTrainer SDK en Git</a>
+			<input id="options-button" type="button" value="Opciones" class="button"/>			
+			<table id="botones">				
+				<tr>
+					<td><input type="button" id="listen" value="Escuchar" class="button"/></td>
+					<td><input type="button" id="rebuild" value="Reconstruir oración" class="button"/></td>
+					<td><input type="button" id="resume-tracking" value="Reanudar rastreo" class="button"/></td>
+					<td><input type="button" id="pause-tracking" value="Detener rastreo" class="button"/></td>
+				</tr>
+			</table>
 			<input type="hidden" name="valorese" value="">
 		</div>
 
 		<div id="options">
 
 			<table>
-				<tbody>
+				<tbody>				
 					<tr><td class="label">Disparador de reconocimiento</td><td><select id="recording-triggers"></select></td></tr>
 					<tr><td class="label">Codificación de gestos</td><td><select id="recording-strategies"></select></td></tr>
 					<tr><td class="label">Estrategia de reconocimiento</td><td><select id="recognition-strategies"></select></td></tr>
@@ -103,49 +106,12 @@
 			<div>
 				<textarea id="export-text"></textarea>
 				
-				<input type="button" id="retrain-gesture" value="Retrain" class="button"/>
-				<input type="button" id="close-overlay" value="Close" class="button"/>
+				<input type="button" id="retrain-gesture" value="Entrenar de nuevo" class="button"/>
+				<input type="button" id="close-overlay" value="Cerrar" class="button"/>
 			</div>
 		</div>
 		
 		<div id="webgl-warning"><b>ADVERTENCIA:</b> Su navegador no soporta WebGL. La calidad de renderizado será limitada y los rastros de los gestos estarán desactivados.</div>
 		
 	</body>
-
-	<script type="text/javascript">
-		$(document).ready(function() {
-			
-			llamar();
-		});
-
-		function llamar()
-		{
-						
-			$.ajax({
-                url: '/valoreseee',
-                type: 'POST',
-                data: 'buena',
-            })
-            .done(function (miere) {		
-				
-				for (var i in miere) {
-					var uuuu= '{"name":"'+miere[i].name+'", "pose":'+ miere[i].pose+', "data":'+miere[i].data+'}';
-					llenar(uuuu);
-			
-				}
-				
-            })
-            .fail(function () {
-                console.log("error");
-            });
-
-		}
-
-		function llenar(argument) {
-			var leapController = new Leap.Controller();
-			var trainer = new LeapTrainer.Controller({controller: leapController});
-			leapController.connect();
-			trainer.fromJSON(argument);
-		}
-	</script>
 </html>

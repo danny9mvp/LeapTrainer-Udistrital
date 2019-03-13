@@ -47,7 +47,10 @@ body 				{ font-family: Calibri; margin: 0px; -ms-touch-action: none; overflow-x
 
 #render-area 											{ background: transparent; }
 
-#version-tag, #fork-me									{ position: fixed; font-size: 13px; bottom: 22px; right: 0px; height: 20px; line-height: 20px; }
+#botones												{ position: fixed; font-size: 13px; bottom: 22px; right: 0px; height: 20px; line-height: 20px; }
+#listen, #resume-tracking 								{ background: #AFF372; }
+#pause-tracking, #rebuild 								{ background: #FC8C78; }
+#listen:hover, #resume-tracking:hover, #pause-tracking:hover, #rebuild:hover		{ background: #FFF; color: #88CFEB; }
 #version-tag											{ width: 308px; text-align: left; padding-left: 32px; background: #A3DAEF; }
 #fork-me												{ display: block; color: #FFF; width: 170px; text-align: center; background: #FC8C78;}
 #fork-me:hover											{ background: #FFF; color: #88CFEB; }
